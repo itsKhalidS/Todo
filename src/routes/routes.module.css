@@ -1,0 +1,17 @@
+.not_found , .fallback{
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    font-weight: 600;
+}
+.not_found{
+    color: darkred;
+    font-size: 4rem;
+}
+.fallback {
+    color: darkslategrey;
+    font-size: 3rem;
+}
