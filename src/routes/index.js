@@ -3,10 +3,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Todo from '../screens/Todo';
 import Fallback from './fallback';
 import NotFound from './notfound';
-
-const Login = () => {
-  return <div>Login Page</div>;
-};
+import Login from '../screens/Login';
 
 const MainRoute = () => {
   return (
