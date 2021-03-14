@@ -1,20 +1,25 @@
-import React, { useState } from 'react';
-import MetaComponent from '../../components/Meta';
-import styles from './login.module.css';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import fire from "../../config/fire";
+import MetaComponent from "../../components/Meta";
+import Logo from "../../assets/Logo-Blue.PNG";
+import styles from "./login.module.css";
 
 const Login = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [isLoading, setLoading] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [message, setMessage] = useState(null);
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   const onInputChange = (event) => {
-    if (event.target.name === 'email') {
+    if (event.target.name === "email") {
       setEmail(event.target.value);
-    } else if (event.target.name === 'password') {
+    } else if (event.target.name === "password") {
       setPassword(event.target.value);
     } else {
-      setMessage(event.target.value);
+      setError(event.target.value);
     }
   };
   const togglePassword = () => {
@@ -22,18 +27,68 @@ const Login = () => {
       return !prevPasswordStatus;
     });
   };
+
+  const loginClick = (event) => {
+    event.preventDefault();
+    if (validate()) {
+      setLoading(true);
+      fire
+        .auth()
+        .signInWithEmailAndPassword(email, password)
+        .then(() => {
+          setLoading(false);
+          if (error) setError("");
+          navigate("../");
+        })
+        .catch((error) => {
+          let msg = "";
+          switch (error.code) {
+            case "auth/invalid-email":
+              msg = "Invalid email address";
+              break;
+            case "auth/wrong-password":
+              msg = "Incorrect Password";
+              break;
+            case "auth/user-disabled":
+            case "auth/user-not-found":
+              msg = "User Not Found";
+              break;
+            default:
+              msg = "An Unexpected Error occurred during Login";
+              break;
+          }
+          setLoading(false);
+          setPassword("");
+          setError(msg);
+        });
+    }
+  };
+  const validate = () => {
+    const mailformat = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    if (!mailformat.test(email)) {
+      setError("Please enter a valid email address");
+      return false;
+    }
+    if (password === "") {
+      setError("Please enter your password");
+      return false;
+    }
+    return true;
+  };
+
   return (
     <>
       <MetaComponent
-        title='Login: Daily Planner'
-        description='Login and create and manage your daily tasks'
-        keywords='Login, Planner, Task, Tasks, Todo, Notes'
+        title="Login: Daily Planner"
+        description="Login and create and manage your daily tasks"
+        keywords="Login, Planner, Task, Tasks, Todo, Notes"
       />
 
       <div className={styles.background}>
         <div className={styles.container}>
           <div className={styles.welcome}>
-            <h2>Welcome to Daily Planner</h2>
+            <img className={styles.logo} src={Logo} alt="Brand Logo" />
+            <h2>Welcome,</h2>
             <div className={styles.welcome_content}>
               <p>
                 Plan your day effectively.
@@ -44,14 +99,14 @@ const Login = () => {
           </div>
           <div className={styles.login}>
             <h2>Login</h2>
-            {message && <div className={styles.message}>*{message}</div>}
+            {error && <div className={styles.error}>*{error}</div>}
             <div className={styles.input_container}>
               <label>Email:</label>
               <div className={styles.input_div}>
                 <input
-                  type='email'
-                  name='email'
-                  placeholder='Enter email'
+                  type="email"
+                  name="email"
+                  placeholder="Enter email"
                   value={email}
                   onChange={onInputChange}
                   className={styles.email}
@@ -62,9 +117,9 @@ const Login = () => {
               <label>Password:</label>
               <div className={styles.input_div}>
                 <input
-                  type={showPassword ? 'text' : 'password'}
-                  name='password'
-                  placeholder='Enter password'
+                  type={showPassword ? "text" : "password"}
+                  name="password"
+                  placeholder="Enter password"
                   value={password}
                   onChange={onInputChange}
                   className={styles.password}
@@ -73,11 +128,17 @@ const Login = () => {
                   className={styles.toggle_password}
                   onClick={togglePassword}
                 >
-                  {showPassword ? 'Hide' : 'Show'}
+                  {showPassword ? "Hide" : "Show"}
                 </button>
               </div>
             </div>
-            <button className={styles.login_btn}>Login</button>
+            <button
+              className={styles.login_btn}
+              onClick={loginClick}
+              disabled={isLoading}
+            >
+              Login
+            </button>
           </div>
         </div>
       </div>

@@ -1,14 +1,14 @@
 import React from 'react';
-import { Helmet } from 'react-helmet';
+import MetaTags from 'react-meta-tags';
 
 const MetaComponent = ({ title, description, keywords }) => {
   return (
-    <Helmet>
+    <MetaTags>
       <title>{title}</title>
       <meta name='title' content={title} />
       {description && <meta name='description' content={description} />}
       {keywords && <meta name='keywords' content={keywords} />}
-    </Helmet>
+    </MetaTags>
   );
 };
 export default MetaComponent;
