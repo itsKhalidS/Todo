@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router";
 import fire from "../../config/fire";
 import Logo from "../../assets/Logo-Blue.PNG";
 import styles from "./signUp.module.css";
@@ -12,6 +13,7 @@ const SignUp = () => {
   const [reEnterPassword, setReEnteredPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   const onSignUpClick = (event) => {
     event.preventDefault();
@@ -23,6 +25,7 @@ const SignUp = () => {
         .then(() => {
           setLoading(false);
           if (error) setError("");
+          navigate("/tasks");
         })
         .catch((error) => {
           let msg = "";
@@ -49,7 +52,8 @@ const SignUp = () => {
     }
   };
   const validate = () => {
-    const mailformat = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    const mailformat =
+      /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
     if (firstName === "") {
       setError("Please enter your First Name");
       return false;
@@ -78,6 +82,11 @@ const SignUp = () => {
     }
     return true;
   };
+
+  const navigateToLogin = () => {
+    navigate("/login");
+  };
+
   return (
     <div className={styles.sign_up_page}>
       <div className={styles.left}>
@@ -166,6 +175,12 @@ const SignUp = () => {
           >
             Sign Up
           </button>
+          <div className={styles.redirect_link}>
+            Already have an account?&nbsp;
+            <span className={styles.login_btn} onClick={navigateToLogin}>
+              Login
+            </span>
+          </div>
         </div>
       </div>
     </div>

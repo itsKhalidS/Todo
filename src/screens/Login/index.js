@@ -38,7 +38,7 @@ const Login = () => {
         .then(() => {
           setLoading(false);
           if (error) setError("");
-          navigate("../");
+          navigate("/tasks");
         })
         .catch((error) => {
           let msg = "";
@@ -64,7 +64,8 @@ const Login = () => {
     }
   };
   const validate = () => {
-    const mailformat = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    const mailformat =
+      /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
     if (!mailformat.test(email)) {
       setError("Please enter a valid email address");
       return false;
@@ -92,8 +93,8 @@ const Login = () => {
             <div className={styles.welcome_content}>
               <p>
                 Plan your day effectively.
-                <br /> Manage your tasks, todos and notes and get the most out
-                of your day.
+                <br /> Manage your tasks and todos and get the most out of your
+                day.
               </p>
             </div>
           </div>

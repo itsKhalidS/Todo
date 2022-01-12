@@ -1,5 +1,4 @@
-html{
-
+html {
   /*Breakpoints for devices*/
   --breakpoint-xs: 375px;
   --breakpoint-sm: 576px;
@@ -7,30 +6,31 @@ html{
   --breakpoint-lg: 992px;
 
   /* colors*/
-  --todo-blue: #2272F1;
-  --white: #FFFFFF;
+  --todo-blue: #2272f1;
+  --todo-blue-hover: #0035d4;
+  --white: #ffffff;
 
   /*background image*/
-  --background-img: url('./assets/backround.PNG');
-  
+  --background-img: url("./assets/backround.PNG");
+
   /*heading*/
-  --heading: 'Montserrat', sans-serif;
+  --heading: "Montserrat", sans-serif;
 }
 
 body {
   margin: 0;
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
 
-@media(max-width: 768px){
-  html{
+@media (max-width: 768px) {
+  html {
     font-size: 70% !important;
   }
 }

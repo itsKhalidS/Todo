@@ -3,10 +3,14 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { connect } from "react-redux";
 import fire from "../config/fire";
 import { signInUser, signOutUser } from "../redux/actionCreators";
-import Home from "../screens/Home";
-import Fallback from "./fallback";
-import NotFound from "./notfound";
+import LandingPage from "../screens/Landing";
+import SignUp from "../screens/SignUp";
+import Tasks from "../screens/Tasks";
 import Login from "../screens/Login";
+import Fallback from "../screens/RoutePages/fallback";
+import NotFound from "../screens/RoutePages/notfound";
+import NotAuthenticated from "./NotAuthenticated";
+import OnlyWhenAuthenticated from "./OnlyWhenAuthenticated";
 
 const MainRoute = ({ user, signIn, signOut }) => {
   useEffect(() => {
@@ -25,17 +29,28 @@ const MainRoute = ({ user, signIn, signOut }) => {
 
   return (
     <Router>
-      <Suspense fallback={<Fallback />}>
-        <Routes>
-          <Route path="/" exact element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="*" component={<NotFound />} />
-        </Routes>
-      </Suspense>
+      <NotAuthenticated>
+        <Suspense fallback={<Fallback />}>
+          <Routes>
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/signup" element={<SignUp />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </Suspense>
+      </NotAuthenticated>
+      <OnlyWhenAuthenticated>
+        <Suspense fallback={<Fallback />}>
+          <Routes>
+            <Route path="/tasks" element={<Tasks />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </Suspense>
+      </OnlyWhenAuthenticated>
     </Router>
   );
 };
-const mapStatetoProps = (state) => {
+const mapStateToProps = (state) => {
   return {
     user: state.user,
   };
@@ -46,4 +61,4 @@ const mapDispatchToProps = (dispatch) => {
     signOut: () => dispatch(signOutUser()),
   };
 };
-export default connect(mapStatetoProps, mapDispatchToProps)(MainRoute);
+export default connect(mapStateToProps, mapDispatchToProps)(MainRoute);
