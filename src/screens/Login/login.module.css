@@ -119,7 +119,8 @@
   line-height: 2;
 }
 .toggle_password:hover {
-  color: rgb(0, 53, 212);
+  color: var(--todo-blue-hover);
+  text-decoration: underline;
 }
 .toggle_password:focus {
   outline: none;
@@ -134,16 +135,43 @@
   margin-top: 10px;
   font-size: 1.25rem;
   font-weight: 500;
+  cursor: pointer;
 }
 .login_btn:hover {
-  background-color: rgb(41, 94, 252);
+  background-color: var(--todo-blue-hover);
 }
 .login_btn:focus {
   outline: none;
   border: 3px solid rgb(0, 53, 212);
 }
-
+.login_btn:disabled {
+  background-color: var(--todo-blue-disabled);
+  cursor: not-allowed;
+}
+.redirect_cont {
+  width: 90%;
+}
+.redirect_link {
+  width: 100%;
+  text-align: right;
+  font-size: 0.9rem;
+}
+.redirect_btn {
+  color: var(--todo-blue);
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+.redirect_btn:hover {
+  color: var(--todo-blue-hover);
+  text-decoration: underline;
+}
+.redirect_margin {
+  margin-bottom: 3px;
+}
 @media (max-width: 992px) {
+  .container {
+    width: 70%;
+  }
   .email,
   .password,
   .toggle_password {
@@ -156,7 +184,8 @@
 
 @media (max-width: 768px) {
   .container {
-    height: 80%;
+    width: 50%;
+    height: 85%;
     flex-direction: column;
   }
   .welcome {
@@ -171,6 +200,7 @@
   .login {
     height: 50%;
     width: 100%;
+    padding: 7px 15px;
     border-radius: 0 0 20px 20px;
     border: none;
     border-bottom: 1px solid dimgray;

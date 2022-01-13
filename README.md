@@ -4,7 +4,7 @@ Get the most out of your day. Plan your tasks and manage them effectively.
 
 ## Firebase Configuration
 
-This app will be deployed using firebase. The config files haven't been made public on Github. To clone this app and and make it work properly you'll have to create a config file of your own having all your authentication and database configurations inside src/config/fire.js.
+This app will be deployed using firebase. The keys and tokens in the config file haven't been made public on Github. To clone this app and and make it work properly you'll have to create a .env file of your own and place your tokens and keys in it.
 
 ## Getting Started with Create React App
 

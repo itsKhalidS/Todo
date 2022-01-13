@@ -3,6 +3,7 @@ import { useNavigate } from "react-router";
 import fire from "../../config/fire";
 import Logo from "../../assets/Logo-Blue.PNG";
 import styles from "./signUp.module.css";
+import LoadingSpinner from "../../components/LoadingSpinner";
 
 const SignUp = () => {
   const [isLoading, setLoading] = useState(false);
@@ -23,8 +24,12 @@ const SignUp = () => {
         .auth()
         .createUserWithEmailAndPassword(email, password)
         .then(() => {
-          setLoading(false);
+          const userDataBaseRef = fire
+            .database()
+            .ref(`${fire.auth().currentUser?.uid}/Details`);
+          userDataBaseRef.set({ firstName, lastName });
           if (error) setError("");
+          setLoading(false);
           navigate("/tasks");
         })
         .catch((error) => {
@@ -173,7 +178,7 @@ const SignUp = () => {
             onClick={onSignUpClick}
             disabled={isLoading}
           >
-            Sign Up
+            {isLoading ? <LoadingSpinner /> : "Sign Up"}
           </button>
           <div className={styles.redirect_link}>
             Already have an account?&nbsp;

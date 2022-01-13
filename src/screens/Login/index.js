@@ -4,6 +4,7 @@ import fire from "../../config/fire";
 import MetaComponent from "../../components/Meta";
 import Logo from "../../assets/Logo-Blue.PNG";
 import styles from "./login.module.css";
+import LoadingSpinner from "../../components/LoadingSpinner";
 
 const Login = () => {
   const [isLoading, setLoading] = useState(false);
@@ -76,6 +77,9 @@ const Login = () => {
     }
     return true;
   };
+  const navigateToSignUp = () => {
+    navigate("/signup");
+  };
 
   return (
     <>
@@ -138,8 +142,24 @@ const Login = () => {
               onClick={loginClick}
               disabled={isLoading}
             >
-              Login
+              {isLoading ? <LoadingSpinner /> : "Login"}
             </button>
+            <div className={styles.redirect_cont}>
+              <div
+                className={`${styles.redirect_link} ${styles.redirect_margin}`}
+              >
+                <span className={styles.redirect_btn}>Forgot Password?</span>
+              </div>
+              <div className={styles.redirect_link}>
+                New User?&nbsp;
+                <span
+                  className={styles.redirect_btn}
+                  onClick={navigateToSignUp}
+                >
+                  SignUp
+                </span>
+              </div>
+            </div>
           </div>
         </div>
       </div>

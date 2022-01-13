@@ -39,7 +39,7 @@ const LandingPage = () => {
             </div>
             <div className={styles.buttons}>
               <button
-                className={styles.button}
+                className={`${styles.button_margin} ${styles.button}`}
                 onClick={() => redirectTo("signup")}
               >
                 SignUp
@@ -59,14 +59,14 @@ const LandingPage = () => {
       </div>
       <div className={styles.footer}>
         <div>
-          This web app is designed and implemented by&nbsp;
+          This web app is designed and implemented by{" "}
           <a
             className={styles.linkedin}
             href="https://www.linkedin.com/in/md-khalid-shahzad-7b63611b1"
             target="_blank"
             rel="noreferrer"
           >
-            Md Khalid Shahzad.
+            Md&nbsp;Khalid&nbsp;Shahzad.
           </a>
         </div>
         <div className={styles.small}>

@@ -7,7 +7,8 @@ html {
 
   /* colors*/
   --todo-blue: #2272f1;
-  --todo-blue-hover: #0035d4;
+  --todo-blue-hover: rgb(39, 89, 238);
+  --todo-blue-disabled: #3b6bb8;
   --white: #ffffff;
 
   /*background image*/

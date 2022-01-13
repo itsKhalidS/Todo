@@ -89,6 +89,7 @@
 }
 .toggle_password:hover {
   color: var(--todo-blue-hover);
+  text-decoration: underline;
 }
 .toggle_password:focus {
   outline: none;
@@ -102,13 +103,18 @@
   border: none;
   font-size: 1.25rem;
   font-weight: 500;
+  cursor: pointer;
 }
 .sign_up_btn:hover {
-  background-color: rgb(41, 94, 252);
+  background-color: var(--todo-blue-hover);
 }
 .sign_up_btn:focus {
   outline: none;
   border: 3px solid rgb(0, 53, 212);
+}
+.sign_up_btn:disabled {
+  background-color: var(--todo-blue-disabled);
+  cursor: not-allowed;
 }
 .redirect_link {
   width: 70%;
