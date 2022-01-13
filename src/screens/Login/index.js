@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import fire from "../../config/fire";
 import MetaComponent from "../../components/Meta";
+import LoadingSpinner from "../../components/LoadingSpinner";
 import Logo from "../../assets/Logo-Blue.PNG";
 import styles from "./login.module.css";
-import LoadingSpinner from "../../components/LoadingSpinner";
 
 const Login = () => {
   const [isLoading, setLoading] = useState(false);
@@ -85,7 +85,7 @@ const Login = () => {
     <>
       <MetaComponent
         title="Login: Daily Planner"
-        description="Login and create and manage your daily tasks"
+        description="Login to create and manage your daily tasks"
         keywords="Login, Planner, Task, Tasks, Todo, Notes"
       />
 

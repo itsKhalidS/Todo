@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
 import fire from "../../config/fire";
+import MetaComponent from "../../components/Meta";
+import LoadingSpinner from "../../components/LoadingSpinner";
 import Logo from "../../assets/Logo-Blue.PNG";
 import styles from "./signUp.module.css";
-import LoadingSpinner from "../../components/LoadingSpinner";
 
 const SignUp = () => {
   const [isLoading, setLoading] = useState(false);
@@ -93,102 +94,109 @@ const SignUp = () => {
   };
 
   return (
-    <div className={styles.sign_up_page}>
-      <div className={styles.left}>
-        <img className={styles.logo} src={Logo} alt="Brand Logo" />
-      </div>
-      <div className={styles.right}>
-        <div className={styles.container}>
-          <div className={styles.header_div}>
-            <h2>Create an account</h2>
-            {error && <span className={styles.error}>*{error}</span>}
-          </div>
-          <div className={styles.input_container}>
-            <label htmlFor="firstName">First name: </label>
-            <input
-              id="firstName"
-              type="text"
-              placeholder="First Name"
-              value={firstName}
-              onChange={(e) => {
-                setFirstName(e.target.value);
-              }}
-            />
-          </div>
-          <div className={styles.input_container}>
-            <label htmlFor="lastName">Last Name: </label>
-            <input
-              id="lastName"
-              type="text"
-              placeholder="Last Name"
-              value={lastName}
-              onChange={(e) => {
-                setLastName(e.target.value);
-              }}
-            />
-          </div>
-          <div className={styles.input_container}>
-            <label htmlFor="SignUpEmail">Email: </label>
-            <input
-              id="SignUpEmail"
-              type="email"
-              placeholder="Enter your Email"
-              value={email}
-              onChange={(e) => {
-                setEmail(e.target.value);
-              }}
-            />
-          </div>
-          <div className={styles.input_container}>
-            <label htmlFor="SignUpPassword">Password: </label>
-            <div className={styles.password_div}>
+    <>
+      <MetaComponent
+        title="Sign Up: Daily Planner"
+        description="SignUp to create and manage your daily tasks and increase your productivity"
+        keywords="SignUp, sign, up, Planner, Task, Tasks, Todo, Notes"
+      />
+      <div className={styles.sign_up_page}>
+        <div className={styles.left}>
+          <img className={styles.logo} src={Logo} alt="Brand Logo" />
+        </div>
+        <div className={styles.right}>
+          <div className={styles.container}>
+            <div className={styles.header_div}>
+              <h2>Create an account</h2>
+              {error && <span className={styles.error}>*{error}</span>}
+            </div>
+            <div className={styles.input_container}>
+              <label htmlFor="firstName">First name: </label>
               <input
-                id="SignUpPassword"
-                type={showPassword ? "text" : "password"}
-                placeholder="Enter your Password"
-                value={password}
+                id="firstName"
+                type="text"
+                placeholder="First Name"
+                value={firstName}
                 onChange={(e) => {
-                  setPassword(e.target.value);
+                  setFirstName(e.target.value);
                 }}
               />
-              <button
-                className={styles.toggle_password}
-                onClick={() => {
-                  setShowPassword(!showPassword);
-                }}
-              >
-                {showPassword ? "Hide" : "Show"}
-              </button>
             </div>
-          </div>
-          <div className={styles.input_container}>
-            <label htmlFor="SignUpReEnter">Re-enter Password: </label>
-            <input
-              id="SignUpReEnter"
-              type="password"
-              placeholder="Re Enter Password"
-              value={reEnterPassword}
-              onChange={(e) => {
-                setReEnteredPassword(e.target.value);
-              }}
-            />
-          </div>
-          <button
-            className={styles.sign_up_btn}
-            onClick={onSignUpClick}
-            disabled={isLoading}
-          >
-            {isLoading ? <LoadingSpinner /> : "Sign Up"}
-          </button>
-          <div className={styles.redirect_link}>
-            Already have an account?&nbsp;
-            <span className={styles.login_btn} onClick={navigateToLogin}>
-              Login
-            </span>
+            <div className={styles.input_container}>
+              <label htmlFor="lastName">Last Name: </label>
+              <input
+                id="lastName"
+                type="text"
+                placeholder="Last Name"
+                value={lastName}
+                onChange={(e) => {
+                  setLastName(e.target.value);
+                }}
+              />
+            </div>
+            <div className={styles.input_container}>
+              <label htmlFor="SignUpEmail">Email: </label>
+              <input
+                id="SignUpEmail"
+                type="email"
+                placeholder="Enter your Email"
+                value={email}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                }}
+              />
+            </div>
+            <div className={styles.input_container}>
+              <label htmlFor="SignUpPassword">Password: </label>
+              <div className={styles.password_div}>
+                <input
+                  id="SignUpPassword"
+                  type={showPassword ? "text" : "password"}
+                  placeholder="Enter your Password"
+                  value={password}
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                  }}
+                />
+                <button
+                  className={styles.toggle_password}
+                  onClick={() => {
+                    setShowPassword(!showPassword);
+                  }}
+                >
+                  {showPassword ? "Hide" : "Show"}
+                </button>
+              </div>
+            </div>
+            <div className={styles.input_container}>
+              <label htmlFor="SignUpReEnter">Re-enter Password: </label>
+              <input
+                id="SignUpReEnter"
+                type="password"
+                placeholder="Re Enter Password"
+                value={reEnterPassword}
+                onChange={(e) => {
+                  setReEnteredPassword(e.target.value);
+                }}
+              />
+            </div>
+            <button
+              className={styles.sign_up_btn}
+              onClick={onSignUpClick}
+              disabled={isLoading}
+            >
+              {isLoading ? <LoadingSpinner /> : "Sign Up"}
+            </button>
+            <div className={styles.redirect_link}>
+              Already have an account?&nbsp;
+              <span className={styles.login_btn} onClick={navigateToLogin}>
+                Login
+              </span>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 export default SignUp;
