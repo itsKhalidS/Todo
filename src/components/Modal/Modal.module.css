@@ -1,0 +1,93 @@
+.modal {
+  position: fixed; /* Stay in place */
+  z-index: 10; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100vw; /* Full width */
+  height: 100vh; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(0, 0, 0); /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.65); /* Black w/ opacity */
+  -webkit-animation-name: fadeIn; /* Fade in the background */
+  -webkit-animation-duration: 0.5s;
+  animation-name: fadeIn;
+  animation-duration: 0.5s;
+}
+
+/* Modal Content */
+.modal_content {
+  position: fixed;
+  background-color: white;
+  width: 45%;
+  max-height: 60%;
+  border: 2px solid black;
+  border-radius: 5px;
+  text-align: center;
+}
+
+/* The Close Button */
+.close {
+  color: white;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.modal_header {
+  padding: 2px 16px;
+  background-color: var(--todo-blue);
+  color: white;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  min-height: 48px;
+}
+.header_text {
+  font-family: var(--heading);
+  font-size: 1.65rem;
+  margin: 8px 0;
+}
+@media (max-width: 768px) {
+  .modal_header {
+    min-height: 38px;
+  }
+}
+@media (max-width: 576px) {
+  .modal_content {
+    width: 55%;
+    max-height: 80%;
+  }
+}
+@media (max-width: 375px) {
+  .modal_content {
+    width: 65%;
+  }
+}
+
+/* Add Animation */
+@-webkit-keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

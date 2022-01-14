@@ -11,6 +11,7 @@ import Fallback from "../screens/RoutePages/fallback";
 import NotFound from "../screens/RoutePages/notfound";
 import NotAuthenticated from "./NotAuthenticated";
 import OnlyWhenAuthenticated from "./OnlyWhenAuthenticated";
+import ForgotPassword from "../screens/ForgotPassword";
 
 const MainRoute = ({ user, signIn, signOut }) => {
   useEffect(() => {
@@ -35,6 +36,7 @@ const MainRoute = ({ user, signIn, signOut }) => {
             <Route path="/" element={<LandingPage />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/reset_password" element={<ForgotPassword />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>

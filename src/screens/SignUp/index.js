@@ -24,11 +24,8 @@ const SignUp = () => {
       fire
         .auth()
         .createUserWithEmailAndPassword(email, password)
-        .then(() => {
-          const userDataBaseRef = fire
-            .database()
-            .ref(`${fire.auth().currentUser?.uid}/Details`);
-          userDataBaseRef.set({ firstName, lastName });
+        .then((userCredential) => {
+          updateDBAndProfileWithName(userCredential.user);
           if (error) setError("");
           setLoading(false);
           navigate("/tasks");
@@ -57,14 +54,33 @@ const SignUp = () => {
         });
     }
   };
+  const updateDBAndProfileWithName = (currentUser) => {
+    try {
+      const userDataBaseRef = fire
+        .database()
+        .ref(`${currentUser?.uid}/Details`);
+      userDataBaseRef.set({
+        firstName: firstName.trim().replace(/\s+/g, " "),
+        lastName: lastName.trim().replace(/\s+/g, " "),
+      });
+    } catch (error) {}
+    currentUser
+      .updateProfile({
+        displayName:
+          firstName.trim().replace(/\s+/g, " ") +
+          " " +
+          lastName.trim().replace(/\s+/g, " "),
+      })
+      .catch((error) => {});
+  };
   const validate = () => {
     const mailformat =
       /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-    if (firstName === "") {
+    if (firstName.trim() === "") {
       setError("Please enter your First Name");
       return false;
     }
-    if (lastName === "") {
+    if (lastName.trim() === "") {
       setError("Please enter your Last Name");
       return false;
     }

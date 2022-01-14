@@ -17,10 +17,9 @@ const Login = () => {
   const onInputChange = (event) => {
     if (event.target.name === "email") {
       setEmail(event.target.value);
-    } else if (event.target.name === "password") {
+    }
+    if (event.target.name === "password") {
       setPassword(event.target.value);
-    } else {
-      setError(event.target.value);
     }
   };
   const togglePassword = () => {
@@ -79,6 +78,9 @@ const Login = () => {
   };
   const navigateToSignUp = () => {
     navigate("/signup");
+  };
+  const navigateToReset = () => {
+    navigate("/reset_password");
   };
 
   return (
@@ -148,7 +150,9 @@ const Login = () => {
               <div
                 className={`${styles.redirect_link} ${styles.redirect_margin}`}
               >
-                <span className={styles.redirect_btn}>Forgot Password?</span>
+                <span className={styles.redirect_btn} onClick={navigateToReset}>
+                  Forgot Password?
+                </span>
               </div>
               <div className={styles.redirect_link}>
                 New User?&nbsp;
