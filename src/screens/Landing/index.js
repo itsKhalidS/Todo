@@ -42,13 +42,13 @@ const LandingPage = () => {
                 className={`${styles.button_margin} ${styles.button}`}
                 onClick={() => redirectTo("signup")}
               >
-                SignUp
+                Sign Up
               </button>
               <button
                 className={styles.button}
                 onClick={() => redirectTo("login")}
               >
-                LogIn
+                Log In
               </button>
             </div>
           </div>

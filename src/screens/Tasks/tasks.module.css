@@ -1,0 +1,126 @@
+.tasks_page {
+  width: 100%;
+  min-height: 100vh;
+}
+.page {
+  padding: 30px 60px;
+  background-image: var(--background-img);
+  min-height: calc(80vh - 60px);
+}
+.current_tasks {
+  width: 100%;
+  margin-bottom: 30px;
+}
+.other_tasks_cont {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+.complete,
+.previous {
+  width: 45%;
+}
+.current_tasks,
+.complete,
+.previous {
+  height: 550px;
+  border-radius: 8px;
+  border: 1px solid black;
+  background-color: white;
+}
+.tasks_cont {
+  min-height: calc(100% - 80px);
+  overflow: auto;
+}
+.tasks_container {
+  min-height: calc(100% - 40px);
+  overflow: auto;
+}
+.add_task_cont {
+  width: 100%;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-top: 1px solid black;
+}
+.add_task_btn {
+  width: 50%;
+  border-radius: 20px;
+  background-color: var(--todo-blue);
+  color: var(--white);
+  height: 30px;
+  border: none;
+  font-size: 1.1rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+.add_task_btn:hover {
+  background-color: var(--todo-blue-hover);
+}
+.add_task_btn:focus {
+  outline: none;
+  border: 3px solid rgb(0, 53, 212);
+}
+.add_task_btn:disabled {
+  background-color: var(--todo-blue-disabled);
+  cursor: not-allowed;
+}
+.footer {
+  height: 7vh;
+  background-color: var(--todo-blue);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  color: white;
+  text-align: center;
+}
+.linkedin {
+  color: white;
+  font-family: "Montserrat", sans-serif;
+  font-size: 1.05rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+.linkedin:hover {
+  text-decoration: underline;
+}
+.small {
+  font-size: 0.8rem;
+}
+.smallLink {
+  color: white;
+  font-family: "Montserrat", sans-serif;
+  text-decoration: underline;
+}
+@media (max-width: 992px) {
+  .other_tasks_cont {
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+  .complete,
+  .previous {
+    width: 100%;
+  }
+  .complete {
+    margin-bottom: 30px;
+  }
+}
+@media (max-width: 768px) {
+  .current_tasks,
+  .complete,
+  .previous {
+    height: 500px;
+  }
+}
+@media (max-width: 576px) {
+  .page {
+    padding: 30px 30px;
+  }
+}
+@media (max-width: 375px) {
+  .footer {
+    font-size: 0.85rem;
+  }
+}
