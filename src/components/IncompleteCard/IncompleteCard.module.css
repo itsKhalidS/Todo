@@ -1,0 +1,115 @@
+.imcompleteCardCont {
+  width: 90%;
+  max-width: calc(100% - 60px);
+  height: calc(80px - 30px);
+  border: 1px solid black;
+  border-radius: 12px;
+  margin: 0 auto 18px;
+  padding: 15px 30px;
+  display: flex;
+  justify-content: space-between;
+  box-shadow: 0px 0px 4px darkslategrey;
+}
+.imcompleteCardCont:hover {
+  box-shadow: 0px 0px 6px var(--todo-blue);
+}
+.checkTaskCont {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  max-width: 85%;
+}
+.checkboxCont {
+  height: 20px;
+  width: 20px;
+  min-width: 20px;
+  margin-right: 20px;
+}
+.checkbox {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  cursor: pointer;
+}
+.checkbox:hover {
+  box-shadow: 0px 0px 6px darkslategrey;
+}
+.checkbox:disabled {
+  box-shadow: none;
+  cursor: not-allowed;
+}
+.task {
+  font-family: var(--heading);
+  font-weight: 500;
+  font-size: 1.25rem;
+  white-space: nowrap;
+  overflow: auto;
+}
+.task::-webkit-scrollbar {
+  display: none;
+}
+.deleteBtn {
+  height: 100%;
+  max-width: 10%;
+  display: flex;
+  align-items: center;
+}
+.dustbin {
+  max-width: 100%;
+  max-height: 100%;
+  cursor: pointer;
+  border-radius: 25%;
+}
+.dustbin:hover {
+  box-shadow: inset 0px 0px 6px darkred;
+}
+.disabledDustbin {
+  box-shadow: none;
+  cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+  .imcompleteCardCont {
+    height: calc(60px - 20px);
+    max-width: calc(100% - 40px);
+    margin: 0 auto 15px;
+    padding: 10px 20px;
+  }
+  .checkTaskCont {
+    max-width: 90%;
+  }
+  .checkboxCont {
+    height: 17px;
+    width: 17px;
+    min-width: 17px;
+    margin-right: 12px;
+  }
+  .dustbin {
+    height: 20px;
+    width: 20px;
+  }
+}
+@media (max-width: 375px) {
+  .imcompleteCardCont {
+    width: calc(100% - 30px);
+    max-width: calc(100% - 30px);
+    padding: 10px 15px;
+  }
+  .checkTaskCont {
+    max-width: 85%;
+  }
+  .checkboxCont {
+    height: 15px;
+    width: 15px;
+    min-width: 15px;
+    margin-right: 8px;
+  }
+  .deleteBtn {
+    max-width: 15%;
+  }
+  .dustbin {
+    height: 18px;
+    width: 18px;
+    max-width: 100%;
+  }
+}

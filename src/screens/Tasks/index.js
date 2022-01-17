@@ -1,19 +1,164 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { useNavigate } from "react-router";
 import MetaComponent from "../../components/Meta";
 import fire from "../../config/fire";
 import Header from "../../components/Header";
-import styles from "./tasks.module.css";
 import BoxHeader from "../../components/BoxHeader";
+import { getDate, getName } from "../../Helper/string";
+import LoadingSpinner from "../../components/LoadingSpinner";
+import Modal from "../../components/Modal";
+import AddTask from "../AddTask";
+import IncompleteCard from "../../components/IncompleteCard";
+import styles from "./Tasks.module.css";
+import OtherCard from "../../components/OtherCard";
 
 const Tasks = ({ user }) => {
   const [isLoading, setLoading] = useState(false);
+  const [userName, setUserName] = useState("");
+  const [tasks, setTasks] = useState([]);
+  const [completed, setCompleted] = useState([]);
+  const [previous, setPrevious] = useState([]);
+  const [addModal, setAddModal] = useState(false);
+  const [error, setError] = useState("");
+  const [errorModal, serErrorModal] = useState(false);
   const navigate = useNavigate();
-  const signOut = () => {
+
+  useEffect(() => {
+    if (user.displayName) {
+      setUserName(getName(user.displayName, 4, 7));
+    } else {
+      const nameRef = fire.database().ref(`${user.uid}/Details/firstName`);
+      nameRef
+        .get()
+        .then((snapshot) => {
+          if (snapshot.exists()) {
+            setUserName(getName(snapshot.val(), 4, 7));
+          } else {
+            setUserName("");
+          }
+        })
+        .catch((error) => {
+          setUserName("");
+        });
+    }
+  }, [user]);
+
+  useEffect(() => {
+    getData();
+    return removeDataListener;
+  }, []);
+
+  const removeDataListener = useCallback(() => {
+    fire.database().ref(user.uid).off("value");
+  }, [user]);
+
+  const changeErrorStatus = useCallback((err, modalVal) => {
+    setError(err);
+    serErrorModal(modalVal);
+  }, []);
+
+  const getData = useCallback(() => {
+    setLoading(true);
+    const todaysDate = getDate(new Date());
+    const userRef = fire.database().ref(user.uid);
+    userRef.on(
+      "value",
+      (snapshot) => {
+        const data = snapshot.val();
+        console.log(data);
+        let myTasks = [];
+        let completedTasks = [];
+        let previousTasks = [];
+        if (data?.Today?.date && data?.Today?.date === todaysDate) {
+          if (data?.Today?.Tasks) {
+            const tasksObj = data?.Today?.Tasks;
+            for (const id in tasksObj) {
+              myTasks.push({
+                id,
+                task: tasksObj[id],
+              });
+            }
+          }
+          if (data?.Today?.Completed) {
+            const completedObj = data?.Today?.Completed;
+            for (const id in completedObj) {
+              completedTasks.push({
+                id,
+                task: completedObj[id],
+              });
+            }
+          }
+          if (data?.Previous) {
+            const previousObj = data?.Previous;
+            for (const id in previousObj) {
+              previousTasks.push({
+                id,
+                ...previousObj[id],
+              });
+            }
+          }
+          setLoading(false);
+          setTasks(myTasks);
+          setCompleted(completedTasks);
+          setPrevious(previousTasks);
+          changeErrorStatus("", false);
+        } else {
+          let prev = {};
+          if (data?.Today?.Tasks) {
+            const tasksObj = data?.Today?.Tasks;
+            for (const id in tasksObj) {
+              prev[id] = {
+                date: data?.Today?.date,
+                task: tasksObj[id],
+              };
+            }
+          }
+          if (data?.Previous) {
+            prev = { ...prev, ...data?.Previous };
+          }
+          const finalData = {
+            Details: data?.Details,
+            Today: {
+              date: todaysDate,
+              Tasks: {},
+              Completed: {},
+            },
+            Previous: prev,
+          };
+          userRef.set(finalData, (error) => {
+            if (error) {
+              changeErrorStatus("Failed to retrieve data", true);
+              setError("Failed to retrieve data");
+              serErrorModal(true);
+              setLoading(false);
+            } else {
+              setLoading(false);
+              changeErrorStatus("", false);
+            }
+          });
+        }
+      },
+      (error) => {
+        changeErrorStatus("Failed to retrieve data", true);
+        setLoading(false);
+      }
+    );
+  }, [user]);
+
+  const onAddBtnClick = useCallback(() => {
+    setAddModal(true);
+  }, []);
+
+  const onAddModalClose = useCallback(() => {
+    setAddModal(false);
+  }, []);
+
+  const signOut = useCallback(() => {
     fire.auth().signOut();
     navigate("/login");
-  };
+  }, [fire, navigate]);
+
   return (
     <>
       <MetaComponent
@@ -22,13 +167,36 @@ const Tasks = ({ user }) => {
         keywords="Tasks, Todos, Complete, Remaining, Previous"
       />
       <div className={styles.tasks_page}>
-        <Header />
+        <Header name={userName} />
         <div className={styles.page}>
           <div className={styles.current_tasks}>
             <BoxHeader heading="Tasks" />
-            <div className={styles.tasks_cont}></div>
+            <div className={styles.tasks_cont}>
+              {isLoading ? (
+                <div className={styles.centerDivFirst}>
+                  <LoadingSpinner backgroundColor="white" color="#2272f1" />
+                </div>
+              ) : (
+                <div className={styles.incompleteTasksCont}>
+                  {tasks.map((task, index) => {
+                    return (
+                      <IncompleteCard
+                        key={task.id + index}
+                        user={user}
+                        cardDetails={task}
+                        changeErrorStatus={changeErrorStatus}
+                      />
+                    );
+                  })}
+                </div>
+              )}
+            </div>
             <div className={styles.add_task_cont}>
-              <button className={styles.add_task_btn}>
+              <button
+                className={styles.add_task_btn}
+                disabled={isLoading}
+                onClick={onAddBtnClick}
+              >
                 &#10070; Add a Task
               </button>
             </div>
@@ -36,14 +204,59 @@ const Tasks = ({ user }) => {
           <div className={styles.other_tasks_cont}>
             <div className={styles.complete}>
               <BoxHeader heading="Completed" />
-              <div className={styles.tasks_container}></div>
+              <div className={styles.tasks_container}>
+                {isLoading ? (
+                  <>
+                    <div className={styles.centerDiv}>
+                      <LoadingSpinner backgroundColor="white" color="#2272f1" />
+                    </div>
+                  </>
+                ) : (
+                  <div className={styles.compPrevTasksCont}>
+                    {completed.map((task, index) => {
+                      return (
+                        <OtherCard
+                          key={task.id + index}
+                          cardStatus="Completed"
+                          user={user}
+                          cardDetails={task}
+                          changeErrorStatus={changeErrorStatus}
+                        />
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
             </div>
             <div className={styles.previous}>
               <BoxHeader heading="Previous Tasks" />
-              <div className={styles.tasks_container}></div>
+              <div className={styles.tasks_container}>
+                {isLoading ? (
+                  <>
+                    <div className={styles.centerDiv}>
+                      <LoadingSpinner backgroundColor="white" color="#2272f1" />
+                    </div>
+                  </>
+                ) : (
+                  <div className={styles.compPrevTasksCont}>
+                    {previous.map((task, index) => {
+                      return (
+                        <OtherCard
+                          key={task.id + index}
+                          cardStatus="Previous"
+                          user={user}
+                          cardDetails={task}
+                          changeErrorStatus={changeErrorStatus}
+                        />
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>
+        <button onClick={signOut}>Sign Out</button>
         <div className={styles.footer}>
           <div>
             This web app is designed and implemented by{" "}
@@ -64,7 +277,15 @@ const Tasks = ({ user }) => {
             >
               User
             </a>{" "}
-            icon by{" "}
+            and{" "}
+            <a
+              className={styles.smallLink}
+              target="_blank"
+              href="https://icons8.com/icon/85194/trash"
+            >
+              Trash
+            </a>{" "}
+            icons by{" "}
             <a
               className={styles.smallLink}
               target="_blank"
@@ -75,6 +296,7 @@ const Tasks = ({ user }) => {
           </div>
         </div>
       </div>
+      {addModal && <AddTask user={user} onAddModalClose={onAddModalClose} />}
     </>
   );
 };

@@ -1,9 +1,13 @@
 import React from "react";
 import styles from "./spinner.module.css";
 
-const LoadingSpinner = ({ backgroundColor = "#2272f1", color = "white" }) => {
+const LoadingSpinner = ({
+  backgroundColor = "#2272f1",
+  color = "white",
+  className,
+}) => {
   return (
-    <div className={styles.loader_cont}>
+    <div className={`${styles.loader_cont} ${className ? className : ""}`}>
       <div
         className={styles.loader}
         style={{
