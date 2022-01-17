@@ -5,7 +5,7 @@ import MetaComponent from "../../components/Meta";
 import fire from "../../config/fire";
 import Header from "../../components/Header";
 import BoxHeader from "../../components/BoxHeader";
-import { getDate, getName } from "../../Helper/string";
+import { getDate, getName } from "../../helper/string";
 import LoadingSpinner from "../../components/LoadingSpinner";
 import Modal from "../../components/Modal";
 import AddTask from "../AddTask";

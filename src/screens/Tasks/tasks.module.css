@@ -121,7 +121,6 @@
 .incompleteTasksCont::-webkit-scrollbar,
 .compPrevTasksCont::-webkit-scrollbar {
   width: 5px;
-  padding: 3px 0;
 }
 .incompleteTasksCont::-webkit-scrollbar-thumb,
 .compPrevTasksCont::-webkit-scrollbar-thumb {
