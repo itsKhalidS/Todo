@@ -127,6 +127,15 @@
   background-color: var(--todo-blue);
   border-radius: 5px;
 }
+.emptyList {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Gochi Hand", cursive;
+  font-size: 1.25rem;
+}
 @media (max-width: 992px) {
   .other_tasks_cont {
     flex-direction: column;
@@ -163,6 +172,9 @@
     height: 430px;
     padding: 15px 20px;
   }
+  .emptyList {
+    font-size: 1.4rem;
+  }
 }
 @media (max-width: 576px) {
   .page {
@@ -172,5 +184,8 @@
 @media (max-width: 375px) {
   .footer {
     font-size: 0.85rem;
+  }
+  .emptyList {
+    font-size: 1.12rem;
   }
 }

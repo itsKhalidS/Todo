@@ -144,7 +144,7 @@ const Tasks = ({ user }) => {
         setLoading(false);
       }
     );
-  }, [user]);
+  }, [user, changeErrorStatus]);
 
   const onAddBtnClick = useCallback(() => {
     setAddModal(true);
@@ -188,6 +188,11 @@ const Tasks = ({ user }) => {
                       />
                     );
                   })}
+                  {tasks.length === 0 && (
+                    <div className={styles.emptyList}>
+                      You don't have any tasks
+                    </div>
+                  )}
                 </div>
               )}
             </div>
@@ -224,6 +229,11 @@ const Tasks = ({ user }) => {
                         />
                       );
                     })}
+                    {completed.length === 0 && (
+                      <div className={styles.emptyList}>
+                        You haven't completed any tasks
+                      </div>
+                    )}
                   </div>
                 )}
               </div>
@@ -250,6 +260,11 @@ const Tasks = ({ user }) => {
                         />
                       );
                     })}
+                    {previous.length === 0 && (
+                      <div className={styles.emptyList}>
+                        You don't have any previous tasks
+                      </div>
+                    )}
                   </div>
                 )}
               </div>

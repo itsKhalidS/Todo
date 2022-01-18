@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import fire from "../../config/fire";
 import MetaComponent from "../../components/Meta";
@@ -14,56 +14,22 @@ const Login = () => {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
-  const onInputChange = (event) => {
+  const onInputChange = useCallback((event) => {
     if (event.target.name === "email") {
       setEmail(event.target.value);
     }
     if (event.target.name === "password") {
       setPassword(event.target.value);
     }
-  };
-  const togglePassword = () => {
+  }, []);
+
+  const togglePassword = useCallback(() => {
     setShowPassword((prevPasswordStatus) => {
       return !prevPasswordStatus;
     });
-  };
+  }, []);
 
-  const loginClick = (event) => {
-    event.preventDefault();
-    if (validate()) {
-      setLoading(true);
-      fire
-        .auth()
-        .signInWithEmailAndPassword(email, password)
-        .then(() => {
-          setLoading(false);
-          if (error) setError("");
-          navigate("/tasks");
-        })
-        .catch((error) => {
-          let msg = "";
-          switch (error.code) {
-            case "auth/invalid-email":
-              msg = "Invalid email address";
-              break;
-            case "auth/wrong-password":
-              msg = "Incorrect Password";
-              break;
-            case "auth/user-disabled":
-            case "auth/user-not-found":
-              msg = "User Not Found";
-              break;
-            default:
-              msg = "An Unexpected Error occurred during Login";
-              break;
-          }
-          setLoading(false);
-          setPassword("");
-          setError(msg);
-        });
-    }
-  };
-  const validate = () => {
+  const validate = useCallback(() => {
     const mailformat =
       /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
     if (!mailformat.test(email)) {
@@ -75,13 +41,63 @@ const Login = () => {
       return false;
     }
     return true;
-  };
-  const navigateToSignUp = () => {
+  }, [email, password]);
+
+  const loginClick = useCallback(
+    (event) => {
+      if (!isLoading) {
+        event.preventDefault();
+        if (validate()) {
+          setLoading(true);
+          fire
+            .auth()
+            .signInWithEmailAndPassword(email, password)
+            .then(() => {
+              setLoading(false);
+              if (error) setError("");
+              navigate("/tasks");
+            })
+            .catch((err) => {
+              let msg = "";
+              switch (err.code) {
+                case "auth/invalid-email":
+                  msg = "Invalid email address or password";
+                  break;
+                case "auth/wrong-password":
+                  msg = "Invalid email address or password";
+                  break;
+                case "auth/user-disabled":
+                case "auth/user-not-found":
+                  msg = "User Not Found";
+                  break;
+                default:
+                  msg = "An Unexpected Error occurred during Login";
+                  break;
+              }
+              setLoading(false);
+              setPassword("");
+              setError(msg);
+            });
+        }
+      }
+    },
+    [isLoading, validate, email, password, error, navigate]
+  );
+
+  const handleKeyPress = useCallback(
+    (event) => {
+      if (event.key === "Enter" && !isLoading) loginClick(event);
+    },
+    [loginClick, isLoading]
+  );
+
+  const navigateToSignUp = useCallback(() => {
     navigate("/signup");
-  };
-  const navigateToReset = () => {
+  }, [navigate]);
+
+  const navigateToReset = useCallback(() => {
     navigate("/reset_password");
-  };
+  }, [navigate]);
 
   return (
     <>
@@ -117,6 +133,8 @@ const Login = () => {
                   value={email}
                   onChange={onInputChange}
                   className={styles.email}
+                  onKeyPress={handleKeyPress}
+                  autoFocus
                 />
               </div>
             </div>
@@ -130,6 +148,7 @@ const Login = () => {
                   value={password}
                   onChange={onInputChange}
                   className={styles.password}
+                  onKeyPress={handleKeyPress}
                 />
                 <button
                   className={styles.toggle_password}

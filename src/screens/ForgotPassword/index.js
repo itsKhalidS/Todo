@@ -14,41 +14,11 @@ const ForgotPassword = () => {
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
 
-  const onEmailChange = (event) => {
+  const onEmailChange = useCallback((event) => {
     setEmail(event.target.value);
-  };
-  const onSubmit = (event) => {
-    event.preventDefault();
-    if (validate()) {
-      setLoading(true);
-      fire
-        .auth()
-        .sendPasswordResetEmail(email)
-        .then(() => {
-          if (!!error) setError("");
-          setEmail("");
-          setLoading(false);
-          setShowModal(true);
-        })
-        .catch((error) => {
-          let msg = "";
-          switch (error.code) {
-            case "auth/invalid-email":
-              msg = "Invalid Email Address";
-              break;
-            case "auth/user-not-found":
-              msg = "User not found";
-              break;
-            default:
-              msg = "An unexpected error occurred";
-              break;
-          }
-          setError(msg);
-          setLoading(false);
-        });
-    }
-  };
-  const validate = () => {
+  }, []);
+
+  const validate = useCallback(() => {
     const mailformat =
       /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
     if (!mailformat.test(email)) {
@@ -56,7 +26,51 @@ const ForgotPassword = () => {
       return false;
     }
     return true;
-  };
+  }, [email]);
+
+  const onSubmit = useCallback(
+    (event) => {
+      if (!isLoading) {
+        event.preventDefault();
+        if (validate()) {
+          setLoading(true);
+          fire
+            .auth()
+            .sendPasswordResetEmail(email)
+            .then(() => {
+              if (!!error) setError("");
+              setEmail("");
+              setLoading(false);
+              setShowModal(true);
+            })
+            .catch((err) => {
+              let msg = "";
+              switch (err.code) {
+                case "auth/invalid-email":
+                  msg = "Invalid Email Address";
+                  break;
+                case "auth/user-not-found":
+                  msg = "User not found";
+                  break;
+                default:
+                  msg = "An unexpected error occurred";
+                  break;
+              }
+              setError(msg);
+              setLoading(false);
+            });
+        }
+      }
+    },
+    [isLoading, validate, email, error]
+  );
+
+  const handleKeyPress = useCallback(
+    (event) => {
+      if (event.key === "Enter" && !isLoading) onSubmit(event);
+    },
+    [onSubmit, isLoading]
+  );
 
   const navigateToLogin = useCallback(() => {
     navigate("/login");
@@ -91,6 +105,8 @@ const ForgotPassword = () => {
                   value={email}
                   onChange={onEmailChange}
                   className={styles.email}
+                  onKeyPress={handleKeyPress}
+                  autoFocus
                 />
               </div>
             </div>

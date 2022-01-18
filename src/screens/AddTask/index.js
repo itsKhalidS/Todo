@@ -9,25 +9,42 @@ const AddTask = ({ user, onAddModalClose }) => {
   const [isLoading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const addNewTask = useCallback(() => {
-    setLoading(true);
-    const tasksRef = fire.database().ref(`${user?.uid}/Today/Tasks`);
-    tasksRef.push(task.trim().replace(/\s+/g, " "), (err) => {
-      if (err) {
-        setError("Failed to add task");
-        setLoading(false);
-      } else {
-        setTask("");
-        setError("");
-        setLoading(false);
-        onAddModalClose();
+  const addNewTask = useCallback(
+    (event) => {
+      if (!isLoading) {
+        event.preventDefault();
+        if (!!task.trim()) {
+          setLoading(true);
+          const tasksRef = fire.database().ref(`${user?.uid}/Today/Tasks`);
+          tasksRef.push(task.trim().replace(/\s+/g, " "), (err) => {
+            if (err) {
+              setError("Failed to add task");
+              setLoading(false);
+            } else {
+              setTask("");
+              setError("");
+              setLoading(false);
+              onAddModalClose();
+            }
+          });
+        } else {
+          onAddModalClose();
+        }
       }
-    });
-  }, [task, user, onAddModalClose]);
+    },
+    [isLoading, task, user, onAddModalClose]
+  );
 
   const onTaskChange = useCallback((event) => {
     setTask(event.target.value.slice(0, 50));
   }, []);
+
+  const handleKeyPress = useCallback(
+    (event) => {
+      if (event.key === "Enter" && !isLoading) addNewTask(event);
+    },
+    [addNewTask, isLoading]
+  );
 
   return (
     <Modal
@@ -46,6 +63,8 @@ const AddTask = ({ user, onAddModalClose }) => {
               value={task}
               onChange={onTaskChange}
               className={styles.task}
+              onKeyPress={handleKeyPress}
+              autoFocus
             />
           </div>
         </div>

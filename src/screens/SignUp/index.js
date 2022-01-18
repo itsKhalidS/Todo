@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { useNavigate } from "react-router";
 import fire from "../../config/fire";
 import MetaComponent from "../../components/Meta";
@@ -17,63 +17,7 @@ const SignUp = () => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  const onSignUpClick = (event) => {
-    event.preventDefault();
-    if (validate()) {
-      setLoading(true);
-      fire
-        .auth()
-        .createUserWithEmailAndPassword(email, password)
-        .then((userCredential) => {
-          updateDBAndProfileWithName(userCredential.user);
-          if (error) setError("");
-          setLoading(false);
-          navigate("/tasks");
-        })
-        .catch((error) => {
-          let msg = "";
-          switch (error.code) {
-            case "auth/email-already-in-use":
-              msg = "This Email Address is already in use";
-              break;
-            case "auth/invalid-email":
-              msg = "Invalid Email Address";
-              break;
-            case "auth/weak-password":
-              msg =
-                "The Password which you have entered is too weak. Passwods should have at least 6 characters and may also contain numbers and symbols";
-              break;
-            default:
-              msg = "An Unexpected Error occcurred during Signing Up";
-              break;
-          }
-          setLoading(false);
-          setPassword("");
-          setReEnteredPassword("");
-          setError(msg);
-        });
-    }
-  };
-  const updateDBAndProfileWithName = (currentUser) => {
-    try {
-      const userDataBaseRef = fire
-        .database()
-        .ref(`${currentUser?.uid}/Details`);
-      userDataBaseRef.set({
-        firstName: firstName.trim().replace(/\s+/g, " "),
-        lastName: lastName.trim().replace(/\s+/g, " "),
-      });
-    } catch (error) {}
-    currentUser
-      .updateProfile({
-        displayName:
-          firstName.trim().replace(/\s+/g, " ") +
-          " " +
-          lastName.trim().replace(/\s+/g, " "),
-      })
-      .catch((error) => {});
-  };
-  const validate = () => {
+  const validate = useCallback(() => {
     const mailformat =
       /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
     if (firstName.trim() === "") {
@@ -103,11 +47,92 @@ const SignUp = () => {
       return false;
     }
     return true;
-  };
+  }, [firstName, lastName, email, password, reEnterPassword]);
 
-  const navigateToLogin = () => {
+  const updateDBAndProfileWithName = useCallback(
+    (currentUser) => {
+      try {
+        const userDataBaseRef = fire
+          .database()
+          .ref(`${currentUser?.uid}/Details`);
+        userDataBaseRef.set({
+          firstName: firstName.trim().replace(/\s+/g, " "),
+          lastName: lastName.trim().replace(/\s+/g, " "),
+        });
+      } catch (error) {}
+      currentUser
+        .updateProfile({
+          displayName:
+            firstName.trim().replace(/\s+/g, " ") +
+            " " +
+            lastName.trim().replace(/\s+/g, " "),
+        })
+        .catch((error) => {});
+    },
+    [firstName, lastName]
+  );
+
+  const onSignUpClick = useCallback(
+    (event) => {
+      if (!isLoading) {
+        event.preventDefault();
+        if (validate()) {
+          setLoading(true);
+          fire
+            .auth()
+            .createUserWithEmailAndPassword(email, password)
+            .then((userCredential) => {
+              updateDBAndProfileWithName(userCredential.user);
+              if (error) setError("");
+              setLoading(false);
+              navigate("/tasks");
+            })
+            .catch((err) => {
+              let msg = "";
+              switch (err.code) {
+                case "auth/email-already-in-use":
+                  msg = "This Email Address is already in use";
+                  break;
+                case "auth/invalid-email":
+                  msg = "Invalid Email Address";
+                  break;
+                case "auth/weak-password":
+                  msg =
+                    "The Password which you have entered is too weak. Passwods should have at least 6 characters and may also contain numbers and symbols";
+                  break;
+                default:
+                  msg = "An Unexpected Error occcurred during Sign Up";
+                  break;
+              }
+              setLoading(false);
+              setPassword("");
+              setReEnteredPassword("");
+              setError(msg);
+            });
+        }
+      }
+    },
+    [
+      isLoading,
+      validate,
+      email,
+      password,
+      updateDBAndProfileWithName,
+      error,
+      navigate,
+    ]
+  );
+
+  const navigateToLogin = useCallback(() => {
     navigate("/login");
-  };
+  }, [navigate]);
+
+  const handleKeyPress = useCallback(
+    (event) => {
+      if (event.key === "Enter" && !isLoading) onSignUpClick(event);
+    },
+    [onSignUpClick, isLoading]
+  );
 
   return (
     <>
@@ -136,6 +161,8 @@ const SignUp = () => {
                 onChange={(e) => {
                   setFirstName(e.target.value);
                 }}
+                onKeyPress={handleKeyPress}
+                autoFocus
               />
             </div>
             <div className={styles.input_container}>
@@ -148,6 +175,7 @@ const SignUp = () => {
                 onChange={(e) => {
                   setLastName(e.target.value);
                 }}
+                onKeyPress={handleKeyPress}
               />
             </div>
             <div className={styles.input_container}>
@@ -160,6 +188,7 @@ const SignUp = () => {
                 onChange={(e) => {
                   setEmail(e.target.value);
                 }}
+                onKeyPress={handleKeyPress}
               />
             </div>
             <div className={styles.input_container}>
@@ -173,6 +202,7 @@ const SignUp = () => {
                   onChange={(e) => {
                     setPassword(e.target.value);
                   }}
+                  onKeyPress={handleKeyPress}
                 />
                 <button
                   className={styles.toggle_password}
@@ -194,6 +224,7 @@ const SignUp = () => {
                 onChange={(e) => {
                   setReEnteredPassword(e.target.value);
                 }}
+                onKeyPress={handleKeyPress}
               />
             </div>
             <button

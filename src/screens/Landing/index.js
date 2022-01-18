@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { useNavigate } from "react-router";
 import LogoSmallBlue from "../../assets/Logo-Blue-Small.PNG";
 import CheckList from "../../assets/Checklist.gif";
@@ -7,10 +7,13 @@ import styles from "./landing.module.css";
 const LandingPage = () => {
   const navigate = useNavigate();
 
-  const redirectTo = (page) => {
-    if (page === "signup") navigate("/signup");
-    if (page === "login") navigate("/login");
-  };
+  const redirectTo = useCallback(
+    (page) => {
+      if (page === "signup") navigate("/signup");
+      if (page === "login") navigate("/login");
+    },
+    [navigate]
+  );
 
   //Simply writing your tasks down makes you more effective
   return (

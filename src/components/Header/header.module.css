@@ -43,6 +43,9 @@
 .name_cont {
   color: white;
 }
+.name {
+  font-family: "Montserrat", sans-serif;
+}
 @media (max-width: 768px) {
   .logo_container {
     max-width: 40%;
