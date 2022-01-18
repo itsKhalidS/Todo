@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import LoadingSpinner from "../../components/LoadingSpinner";
 import Modal from "../../components/Modal";
 import fire from "../../config/fire";
@@ -39,6 +39,10 @@ const AddTask = ({ user, onAddModalClose }) => {
     setTask(event.target.value.slice(0, 50));
   }, []);
 
+  const taskLength = useMemo(() => {
+    return task.length;
+  }, [task]);
+
   const handleKeyPress = useCallback(
     (event) => {
       if (event.key === "Enter" && !isLoading) addNewTask(event);
@@ -67,6 +71,7 @@ const AddTask = ({ user, onAddModalClose }) => {
               autoFocus
             />
           </div>
+          <div className={styles.charactersCont}>{taskLength}/50</div>
         </div>
         <button
           className={styles.add_btn}
