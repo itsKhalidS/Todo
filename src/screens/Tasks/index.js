@@ -127,6 +127,7 @@ const Tasks = ({ user }) => {
           };
           userRef.set(finalData, (error) => {
             if (error) {
+              removeDataListener();
               changeErrorStatus("Failed to retrieve data", true);
               setLoading(false);
             } else {
