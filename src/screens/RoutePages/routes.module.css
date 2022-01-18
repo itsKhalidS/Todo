@@ -1,17 +1,32 @@
-.not_found , .fallback{
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    align-items: center;
-    font-weight: 600;
+.not_found,
+.fallback {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  font-weight: 600;
+  background-image: var(--background-img);
 }
-.not_found{
-    color: darkred;
-    font-size: 4rem;
+.not_found {
+  color: darkred;
+  font-size: 4rem;
+  height: 87vh;
 }
 .fallback {
-    color: darkslategrey;
+  color: darkslategrey;
+  font-size: 3rem;
+}
+@media (max-width: 576px) {
+  .not_found {
+    color: darkred;
     font-size: 3rem;
+  }
+}
+@media (max-width: 576px) {
+  .not_found {
+    color: darkred;
+    font-size: 2.5rem;
+  }
 }

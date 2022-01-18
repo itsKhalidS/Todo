@@ -167,7 +167,7 @@ const Tasks = ({ user }) => {
         keywords="Tasks, Todos, Complete, Remaining, Previous"
       />
       <div className={styles.tasks_page}>
-        <Header name={userName} />
+        <Header showButtons={true} name={userName} />
         <div className={styles.page}>
           <div className={styles.current_tasks}>
             <BoxHeader heading="Tasks" />

@@ -116,7 +116,7 @@
 .compPrevTasksCont {
   height: 470px;
   overflow: auto;
-  padding: 20px 15px;
+  padding: 20px 30px;
 }
 .incompleteTasksCont::-webkit-scrollbar,
 .compPrevTasksCont::-webkit-scrollbar {

@@ -13,22 +13,20 @@ import NotAuthenticated from "./NotAuthenticated";
 import OnlyWhenAuthenticated from "./OnlyWhenAuthenticated";
 import ForgotPassword from "../screens/ForgotPassword";
 
-const MainRoute = ({ user, signIn, signOut }) => {
+const MainRoute = ({ isUserLoading, signIn, signOut }) => {
   useEffect(() => {
     fire.auth().onAuthStateChanged((client) => {
       if (client) {
-        if (!user) {
-          signIn(client);
-        }
+        signIn(client);
       } else {
-        if (!!user) {
-          signOut();
-        }
+        signOut();
       }
     });
   });
 
-  return (
+  return isUserLoading ? (
+    <Fallback />
+  ) : (
     <Router>
       <NotAuthenticated>
         <Suspense fallback={<Fallback />}>
@@ -54,7 +52,7 @@ const MainRoute = ({ user, signIn, signOut }) => {
 };
 const mapStateToProps = (state) => {
   return {
-    user: state.user,
+    isUserLoading: state.isUserLoading,
   };
 };
 const mapDispatchToProps = (dispatch) => {

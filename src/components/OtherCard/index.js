@@ -57,35 +57,5 @@ const OtherCard = ({ user, cardStatus, cardDetails, changeErrorStatus }) => {
       </div>
     </div>
   );
-  return (
-    <div className={styles.imcompleteCardCont}>
-      <div className={styles.checkTaskCont}>
-        <div className={styles.checkboxCont}>
-          <input
-            type="checkbox"
-            className={styles.checkbox}
-            title="Mark as Completed"
-            onChange={onCheckBoxClick}
-            disabled={isLoading}
-          />
-        </div>
-
-        <div className={styles.task} title={task}>
-          {task}
-        </div>
-      </div>
-      <div className={styles.deleteBtn}>
-        <img
-          src={Dustbin}
-          alt="Delete"
-          className={`${styles.dustbin} ${
-            isLoading ? styles.disabledDustbin : ""
-          }`}
-          title="Delete"
-          onClick={onDelete}
-        />
-      </div>
-    </div>
-  );
 };
 export default OtherCard;
