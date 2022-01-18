@@ -24,7 +24,7 @@ const IncompleteCard = ({ user, cardDetails, changeErrorStatus }) => {
           });
       }
     },
-    [id, task, user, changeErrorStatus]
+    [isLoading, id, task, user, changeErrorStatus]
   );
 
   const onDelete = useCallback(() => {
@@ -42,7 +42,7 @@ const IncompleteCard = ({ user, cardDetails, changeErrorStatus }) => {
           setLoading(false);
         });
     }
-  }, [id, user, changeErrorStatus]);
+  }, [isLoading, id, user, changeErrorStatus]);
 
   return (
     <div className={styles.imcompleteCardCont}>

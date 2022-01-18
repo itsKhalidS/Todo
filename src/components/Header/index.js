@@ -7,9 +7,11 @@ import styles from "./header.module.css";
 
 const Header = ({ showButtons = false, name = "" }) => {
   const navigate = useNavigate();
+
   const onLogoClick = useCallback(() => {
     navigate("/");
-  }, []);
+  }, [navigate]);
+
   return (
     <div className={styles.header}>
       <div className={styles.header_content}>

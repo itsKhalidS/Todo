@@ -7,11 +7,11 @@ import Header from "../../components/Header";
 import BoxHeader from "../../components/BoxHeader";
 import { getDate, getName } from "../../helper/string";
 import LoadingSpinner from "../../components/LoadingSpinner";
-import Modal from "../../components/Modal";
 import AddTask from "../AddTask";
 import IncompleteCard from "../../components/IncompleteCard";
 import styles from "./Tasks.module.css";
 import OtherCard from "../../components/OtherCard";
+import ErrorModal from "../../components/ErrorModal";
 
 const Tasks = ({ user }) => {
   const [isLoading, setLoading] = useState(false);
@@ -21,7 +21,7 @@ const Tasks = ({ user }) => {
   const [previous, setPrevious] = useState([]);
   const [addModal, setAddModal] = useState(false);
   const [error, setError] = useState("");
-  const [errorModal, serErrorModal] = useState(false);
+  const [errorModal, setErrorModal] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -55,7 +55,7 @@ const Tasks = ({ user }) => {
 
   const changeErrorStatus = useCallback((err, modalVal) => {
     setError(err);
-    serErrorModal(modalVal);
+    setErrorModal(modalVal);
   }, []);
 
   const getData = useCallback(() => {
@@ -66,7 +66,6 @@ const Tasks = ({ user }) => {
       "value",
       (snapshot) => {
         const data = snapshot.val();
-        console.log(data);
         let myTasks = [];
         let completedTasks = [];
         let previousTasks = [];
@@ -129,8 +128,6 @@ const Tasks = ({ user }) => {
           userRef.set(finalData, (error) => {
             if (error) {
               changeErrorStatus("Failed to retrieve data", true);
-              setError("Failed to retrieve data");
-              serErrorModal(true);
               setLoading(false);
             } else {
               setLoading(false);
@@ -154,10 +151,14 @@ const Tasks = ({ user }) => {
     setAddModal(false);
   }, []);
 
+  const onErrorModalClose = useCallback(() => {
+    changeErrorStatus("", false);
+  }, [changeErrorStatus]);
+
   const signOut = useCallback(() => {
     fire.auth().signOut();
     navigate("/login");
-  }, [fire, navigate]);
+  }, [navigate]);
 
   return (
     <>
@@ -288,6 +289,7 @@ const Tasks = ({ user }) => {
             <a
               className={styles.smallLink}
               target="_blank"
+              rel="noreferrer"
               href="https://icons8.com/icon/JzX2t6Cvzq1l/user"
             >
               User
@@ -296,6 +298,7 @@ const Tasks = ({ user }) => {
             <a
               className={styles.smallLink}
               target="_blank"
+              rel="noreferrer"
               href="https://icons8.com/icon/85194/trash"
             >
               Trash
@@ -304,6 +307,7 @@ const Tasks = ({ user }) => {
             <a
               className={styles.smallLink}
               target="_blank"
+              rel="noreferrer"
               href="https://icons8.com"
             >
               Icons8
@@ -312,6 +316,9 @@ const Tasks = ({ user }) => {
         </div>
       </div>
       {addModal && <AddTask user={user} onAddModalClose={onAddModalClose} />}
+      {errorModal && (
+        <ErrorModal onErrorModalClose={onErrorModalClose} error={error} />
+      )}
     </>
   );
 };

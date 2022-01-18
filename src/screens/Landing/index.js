@@ -76,6 +76,7 @@ const LandingPage = () => {
           <a
             className={styles.smallLink}
             target="_blank"
+            rel="noreferrer"
             href="https://icons8.com/icon/RFI53ZLVF5Ga/checklist"
           >
             Checklist
@@ -84,6 +85,7 @@ const LandingPage = () => {
           <a
             className={styles.smallLink}
             target="_blank"
+            rel="noreferrer"
             href="https://icons8.com"
           >
             Icons8

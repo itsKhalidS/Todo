@@ -26,7 +26,7 @@ const OtherCard = ({ user, cardStatus, cardDetails, changeErrorStatus }) => {
           setLoading(false);
         });
     }
-  }, [id, cardStatus, user, changeErrorStatus]);
+  }, [isLoading, id, cardStatus, user, changeErrorStatus]);
 
   return (
     <div className={styles.otherCardCont}>
