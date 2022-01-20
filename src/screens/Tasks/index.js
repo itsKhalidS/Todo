@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { useNavigate } from "react-router";
 import MetaComponent from "../../components/Meta";
 import fire from "../../config/fire";
 import Header from "../../components/Header";
@@ -22,7 +21,6 @@ const Tasks = ({ user }) => {
   const [addModal, setAddModal] = useState(false);
   const [error, setError] = useState("");
   const [errorModal, setErrorModal] = useState(false);
-  const navigate = useNavigate();
 
   useEffect(() => {
     if (user.displayName) {
@@ -156,11 +154,6 @@ const Tasks = ({ user }) => {
     changeErrorStatus("", false);
   }, [changeErrorStatus]);
 
-  const signOut = useCallback(() => {
-    fire.auth().signOut();
-    navigate("/login");
-  }, [navigate]);
-
   return (
     <>
       <MetaComponent
@@ -273,7 +266,6 @@ const Tasks = ({ user }) => {
             </div>
           </div>
         </div>
-        <button onClick={signOut}>Sign Out</button>
         <div className={styles.footer}>
           <div>
             This web app is designed and implemented by{" "}
