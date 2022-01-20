@@ -142,7 +142,7 @@ const Tasks = ({ user }) => {
         setLoading(false);
       }
     );
-  }, [user, changeErrorStatus]);
+  }, [user, changeErrorStatus, removeDataListener]);
 
   const onAddBtnClick = useCallback(() => {
     setAddModal(true);

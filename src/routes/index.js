@@ -12,6 +12,7 @@ import NotFound from "../screens/RoutePages/notfound";
 import NotAuthenticated from "./NotAuthenticated";
 import OnlyWhenAuthenticated from "./OnlyWhenAuthenticated";
 import ForgotPassword from "../screens/ForgotPassword";
+import Profile from "../screens/Profile";
 
 const MainRoute = ({ isUserLoading, signIn, signOut }) => {
   useEffect(() => {
@@ -43,6 +44,7 @@ const MainRoute = ({ isUserLoading, signIn, signOut }) => {
         <Suspense fallback={<Fallback />}>
           <Routes>
             <Route path="/tasks" element={<Tasks />} />
+            <Route path="/profile" element={<Profile />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>

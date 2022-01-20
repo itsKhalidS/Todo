@@ -1,0 +1,264 @@
+.profile_page {
+  width: 100%;
+  min-height: 100vh;
+}
+.page {
+  padding: 40px 50px;
+  width: calc(100% - 100px);
+  min-height: calc(80vh - 80px);
+  background-image: var(--background-img);
+}
+
+.profileInfoCont {
+  padding-bottom: 10px;
+  text-align: center;
+  border-bottom: 1px solid grey;
+}
+.userPic {
+  height: 72px;
+  width: 72px;
+}
+.userName {
+  margin: 5px 0;
+  font-family: var(--heading);
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+.userEmail {
+  margin: 5px 0;
+  font-family: var(--heading);
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+.updatePasswordBlock {
+  margin-top: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding-bottom: 15px;
+  border-bottom: 1px solid grey;
+}
+.updatePasswordTitle {
+  width: 30%;
+  font-size: 1.5rem;
+  text-align: center;
+  font-weight: 600;
+  font-family: var(--heading);
+}
+.passwordFormCont {
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.error {
+  color: brown;
+  font-size: 0.8rem;
+}
+.input_container {
+  width: 70%;
+  height: 10%;
+  min-height: 60px;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  margin-bottom: 10px;
+}
+.password_div {
+  width: 100%;
+}
+.input_container label {
+  font-weight: 500;
+  line-height: 1.75;
+  font-size: 1rem;
+}
+.input_container input {
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid dimgrey;
+  background-image: var(--background-img);
+  line-height: 1.75;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+.password_div input {
+  width: 80%;
+}
+.input_container input:focus {
+  outline: none;
+  border-bottom: 3px solid dimgrey;
+}
+.toggle_password {
+  cursor: pointer;
+  width: 20%;
+  background-color: inherit;
+  color: var(--todo-blue);
+  border: none;
+  font-size: 1rem;
+  line-height: 2;
+}
+.toggle_password:hover {
+  color: var(--todo-blue-hover);
+  text-decoration: underline;
+}
+.toggle_password:focus {
+  outline: none;
+}
+.update_pass_btn {
+  width: 70%;
+  border-radius: 20px;
+  background-color: var(--todo-blue);
+  color: var(--white);
+  height: 40px;
+  border: none;
+  font-size: 1.25rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+.update_pass_btn:hover {
+  background-color: var(--todo-blue-hover);
+}
+.update_pass_btn:focus {
+  outline: none;
+  border: 3px solid rgb(0, 53, 212);
+}
+.update_pass_btn:disabled {
+  background-color: var(--todo-blue-disabled);
+  cursor: not-allowed;
+}
+.delete_acc_btn {
+  background-color: brown;
+}
+.delete_acc_btn:hover {
+  background-color: darkred;
+}
+.delete_acc_btn:focus {
+  outline: none;
+  border: 3px solid rgb(92, 0, 0);
+}
+.delete_acc_btn:disabled {
+  background-color: rgb(102, 44, 44);
+}
+.deleteModalBody {
+  padding: 15px;
+}
+.delete {
+  width: 50%;
+  border-radius: 20px;
+  background-color: brown;
+  color: var(--white);
+  height: 40px;
+  border: none;
+  font-size: 1.25rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+.delete:hover {
+  background-color: darkred;
+}
+.delete:focus {
+  outline: none;
+  border: 3px solid rgb(92, 0, 0);
+}
+.delete:disabled {
+  background-color: rgb(102, 44, 44);
+  cursor: not-allowed;
+}
+.deleteModalHeader {
+  background-color: brown;
+}
+
+.footer {
+  height: 7vh;
+  background-color: var(--todo-blue);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  color: white;
+  text-align: center;
+}
+.linkedin {
+  color: white;
+  font-family: "Montserrat", sans-serif;
+  font-size: 1.05rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+.linkedin:hover {
+  text-decoration: underline;
+}
+.small {
+  font-size: 0.8rem;
+}
+.smallLink {
+  color: white;
+  font-family: "Montserrat", sans-serif;
+  text-decoration: underline;
+}
+
+@media (max-width: 992px) {
+  .input_container {
+    width: 80%;
+  }
+  .update_pass_btn {
+    width: 80%;
+  }
+}
+
+@media (max-width: 768px) {
+  .profileInfoCont {
+    padding-bottom: 7px;
+  }
+  .input_container {
+    width: 60%;
+    min-height: 45px;
+  }
+  .update_pass_btn {
+    width: 60%;
+    height: 30px;
+  }
+  .page {
+    padding: 20px 30px;
+    width: calc(100% - 60px);
+    min-height: calc(80vh - 40px);
+  }
+  .updatePasswordBlock {
+    flex-direction: column;
+    align-items: stretch;
+    padding-bottom: 15px;
+  }
+  .updatePasswordTitle {
+    width: 100%;
+    margin-bottom: 10px;
+    font-size: 1.5rem;
+  }
+  .passwordFormCont {
+    width: 100%;
+  }
+  .deleteModalBody {
+    padding: 10px;
+  }
+  .delete {
+    height: 30px;
+  }
+}
+@media (max-width: 576px) {
+  .input_container {
+    width: 70%;
+  }
+  .update_pass_btn {
+    width: 70%;
+  }
+}
+@media (max-width: 375px) {
+  .input_container {
+    width: 75%;
+  }
+  .update_pass_btn {
+    width: 75%;
+  }
+  .footer {
+    font-size: 0.85rem;
+  }
+}

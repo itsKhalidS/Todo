@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./spinner.module.css";
 
 const LoadingSpinner = ({
-  backgroundColor = "#2272f1",
+  backgroundColor = "#3b6bb8",
   color = "white",
   className,
   big = false,
