@@ -118,9 +118,7 @@ const ForgotPassword = () => {
               {isLoading ? <LoadingSpinner /> : "Reset Password"}
             </button>
             <div className={styles.redirect_cont}>
-              <div
-                className={`${styles.redirect_link} ${styles.redirect_margin}`}
-              >
+              <div className={styles.redirect_link}>
                 <span className={styles.redirect_btn} onClick={navigateToLogin}>
                   Login?
                 </span>

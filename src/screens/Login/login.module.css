@@ -1,6 +1,6 @@
 .background {
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -16,7 +16,6 @@
 }
 .welcome {
   width: 50%;
-  height: 100%;
   background-color: var(--todo-blue);
   color: var(--white);
   border-radius: 20px 0 0 20px;
@@ -45,7 +44,6 @@
 }
 .login {
   width: 50%;
-  height: 100%;
   padding: 15px;
   box-sizing: border-box;
   background-color: var(--white);
@@ -149,6 +147,7 @@
   cursor: not-allowed;
 }
 .redirect_cont {
+  margin: 10px 0;
   width: 90%;
 }
 .redirect_link {
@@ -166,7 +165,7 @@
   text-decoration: underline;
 }
 .redirect_margin {
-  margin-bottom: 3px;
+  margin-bottom: 7px;
 }
 @media (max-width: 992px) {
   .container {
@@ -217,6 +216,9 @@
   }
   .login_btn {
     height: 30px;
+  }
+  .redirect_cont {
+    margin: 7px 0;
   }
 }
 @media (max-width: 576px) {
